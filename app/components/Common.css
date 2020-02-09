@@ -1,0 +1,16 @@
+.topBar {
+    display: flex;
+    justify-content: flex-end;
+    background-color: #490c82;
+    color: white;
+}
+
+.userInfo {
+    padding: 10px 20px;
+}
+
+.logout {
+    padding: 10px 20px;
+    background-color: #631f91;
+    cursor: pointer;
+}
