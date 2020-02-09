@@ -1,12 +1,14 @@
 import React from 'react';
 import Redirect from "react-router-dom/es/Redirect";
 import messager from "../model/Messager";
+import {Link} from 'react-router-dom';
+import "./Common.css"
 
 export default class Login extends React.Component{
 
     constructor(props) {
         super(props);
-        this.login = React.createRef();
+        this.username = React.createRef();
         this.password = React.createRef();
         this.state = {
             incorrectCredentials: false,
@@ -16,7 +18,7 @@ export default class Login extends React.Component{
 
     async handleSubmit(event) {
         event.preventDefault();
-        let response = await messager.login(this.login.current.value, this.password.current.value);
+        let response = await messager.login(this.username.current.value, this.password.current.value);
         if (response.ok) {
             let result = await response.json();
             messager.saveUser(result);
@@ -39,23 +41,30 @@ export default class Login extends React.Component{
 
         return (
             <div>
-                <form onSubmit={this.handleSubmit}>
-                    <h1>Login</h1>
+                <div className="topBar">
+
+                </div>
+                <div className="registerContent">
+                    <form onSubmit={this.handleSubmit}>
+                        <h1>Username</h1>
                         <input
-                            placeholder="Login"
-                            name="login"
-                            ref={this.login}
+                            placeholder="Username"
+                            ref={this.username}
                         />
                         <br/>
-                    <input
-                        type="password"
-                        ref={this.password}
-                        placeholder="Password"
-                    /><br/>
+                        <input
+                            type="password"
+                            ref={this.password}
+                            placeholder="Password"
+                        /><br/>
 
-                    <input type='submit'/>
-                </form>
-                {incorrectCredentials && <p>Wrong login or password</p>}
+                        <input type='submit'/>
+                    </form>
+                </div>
+                {incorrectCredentials && <p>Wrong username or password</p>}
+                <div>
+                    <p>Do not have an account? <Link to="register">Register now!</Link></p>
+                </div>
             </div>
         )
     }

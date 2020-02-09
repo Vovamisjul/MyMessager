@@ -1,26 +1,49 @@
 let messager;
 export default messager = {
-    user: {},
+    user: null,
+    jwt: "",
     isLogged() {
-        return null != window.localStorage.getItem("jwt");
+        return Boolean(this.user);
     },
     saveUser(user) {
-        window.localStorage.setItem("jwt", user.jwt);
-        window.localStorage.setItem("user", JSON.stringify(user.user));
+        window.localStorage.setItem("user_info", JSON.stringify(user));
         this.user = user.user;
+        this.jwt = user.jwt;
     },
     restoreUser() {
-        this.user = JSON.parse(window.localStorage.getItem("user"));
+        let userInfo = JSON.parse(window.localStorage.getItem("user_info"));
+        if (!userInfo)
+            return;
+        this.user = userInfo.user;
+        this.jwt = userInfo.jwt;
     },
-    async login(login, password) {
-        return await fetch("/login", {
+    logout() {
+        this.user = null;
+        this.jwt = "";
+        window.localStorage.removeItem("user_info");
+    },
+    async login(username, password) {
+        return await fetch("/api/login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
             body: JSON.stringify({
-                login: login,
+                username: username,
                 password: password
+            })
+        });
+    },
+    async register(username, password, repeatPassword) {
+        return await fetch("/api/register", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+                repeatPassword: repeatPassword
             })
         });
     }

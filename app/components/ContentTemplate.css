@@ -1,0 +1,36 @@
+.userInfo {
+    padding: 10px 20px;
+}
+
+.logout {
+    font-size: 15px;
+    padding: 5px 15px;
+    margin: 5px;
+    background-color: #631f91;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.content {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.links {
+    float: right;
+    width: 120px;
+    padding-top: 100px;
+}
+
+.links a {
+    text-decoration: none;
+}
+
+.navigateLink {
+    color: #490c82;
+    font-size: 14px;
+}
+
+.leftPart {
+    width: 30%;
+}

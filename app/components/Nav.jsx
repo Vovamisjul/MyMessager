@@ -5,11 +5,17 @@ export default class Nav extends React.Component {
     render() {
         return (
             <nav>
-                <Link to="/profile">Profile</Link>
+                <div className="navigateLink">
+                    <Link to="/profile">Profile</Link>
+                </div>
                 <br/>
-                <Link to="/messages">Messages</Link>
+                <div className="navigateLink">
+                    <Link to="/messages">Messages</Link>
+                </div>
                 <br/>
-                <Link to="/friends">Friends</Link>
+                <div className="navigateLink">
+                    <Link to="/friends">Friends</Link>
+                </div>
             </nav>
         );
     }

@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var userDAO = require('./../messager/DAO/UserDAO');
+
 router.post('/', async function (req, res, next) {
     if (await userDAO.checkUser(req.body)) {
         res.send({
             user: {
-                login: "ImANewUser"
+                username: req.body.username
             },
             jwt: "aaaaaaa.bbbbbbbb.ccccccc"
         });

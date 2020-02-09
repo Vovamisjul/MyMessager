@@ -16,10 +16,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/login', loginRouter);
-app.use('/register', registerRouter);
-app.use('/profile', profileRouter);
+app.use('/api/login', loginRouter);
+app.use('/api/register', registerRouter);
+app.use('/api/profile', profileRouter);
 app.use('/', indexRouter);
+app.use('/login', indexRouter);
 app.use('/register', indexRouter);
 app.use('/messages', indexRouter);
 
