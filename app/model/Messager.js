@@ -24,9 +24,9 @@ export default messager = {
     },
     async login(username, password) {
         return await fetch("/api/login", {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json;charset=utf-8'
+                "Content-Type": "application/json;charset=utf-8"
             },
             body: JSON.stringify({
                 username: username,
@@ -36,9 +36,9 @@ export default messager = {
     },
     async register(username, password, repeatPassword) {
         return await fetch("/api/register", {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json;charset=utf-8'
+                "Content-Type": "application/json;charset=utf-8"
             },
             body: JSON.stringify({
                 username: username,
@@ -46,5 +46,14 @@ export default messager = {
                 repeatPassword: repeatPassword
             })
         });
+    },
+    async getConversations() {
+        return await fetch("/api/getConversations", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify(this.user)
+        })
     }
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import Nav from "./Nav.jsx";
 import messager from "../model/Messager";
-import "./ContentTemplate.css"
-import "./Common.css"
+import "./style/ContentTemplate.css"
+import "./style/Common.css"
 import Redirect from "react-router-dom/es/Redirect";
 
 export default class ContentTemplate extends React.Component {

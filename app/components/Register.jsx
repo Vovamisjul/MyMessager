@@ -1,5 +1,6 @@
 import React from 'react';
 import messager from "../model/Messager";
+import "./style/Common.css"
 
 export default class Register extends React.Component {
 
@@ -25,7 +26,7 @@ export default class Register extends React.Component {
                 existingLogin: true,
                 differentPasswords: true,
             });
-            this.props.history.push("messages");
+            this.props.history.push("conversations");
         } else {
             console.log(response);
             switch (response.status) {

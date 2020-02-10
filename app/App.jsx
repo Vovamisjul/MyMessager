@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NotFound from './components/notfound.jsx';
 import Login from "./components/Login.jsx";
 import Register from "./components/Register.jsx";
-import Messages from "./components/Messages.jsx";
+import Conversations from "./components/Conversations.jsx";
 import messager from "./model/Messager";
 
 export default class App extends React.Component {
@@ -16,7 +16,7 @@ export default class App extends React.Component {
                     <Switch>
                         <Route exact path="/(|login)" component={Login} />
                         <Route path="/register" component={Register} />
-                        <Route path="/messages" component={Messages} />
+                        <Route path="/conversations" component={Conversations} />
                         <Route component={NotFound} />
                     </Switch>
                 </div>

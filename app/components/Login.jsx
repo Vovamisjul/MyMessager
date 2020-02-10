@@ -2,7 +2,7 @@ import React from 'react';
 import Redirect from "react-router-dom/es/Redirect";
 import messager from "../model/Messager";
 import {Link} from 'react-router-dom';
-import "./Common.css"
+import "./style/Common.css"
 
 export default class Login extends React.Component{
 
@@ -25,7 +25,7 @@ export default class Login extends React.Component{
             this.setState({
                 incorrectCredentials: false,
             });
-            this.props.history.push("messages");
+            this.props.history.push("conversations");
         } else {
             this.setState({
                 incorrectCredentials: true,
@@ -36,7 +36,7 @@ export default class Login extends React.Component{
     render() {
         const { incorrectCredentials } = this.state;
         if (messager.isLogged()) {
-            return <Redirect to="/messages" />;
+            return <Redirect to="/conversations" />;
         }
 
         return (

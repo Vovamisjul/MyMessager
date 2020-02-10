@@ -7,6 +7,7 @@ var indexRouter = require('./routes/index');
 var registerRouter = require('./routes/register');
 var loginRouter = require('./routes/login');
 var profileRouter = require('./routes/profile');
+var convesationsRouter = require('./routes/convesations');
 
 var app = express();
 
@@ -19,9 +20,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/login', loginRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/profile', profileRouter);
+app.use('/api/getConversations', convesationsRouter);
 app.use('/', indexRouter);
 app.use('/login', indexRouter);
 app.use('/register', indexRouter);
-app.use('/messages', indexRouter);
+app.use('/conversations', indexRouter);
 
 module.exports = app;

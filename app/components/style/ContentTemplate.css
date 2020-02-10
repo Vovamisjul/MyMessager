@@ -16,16 +16,6 @@
     justify-content: flex-start;
 }
 
-.links {
-    float: right;
-    width: 120px;
-    padding-top: 100px;
-}
-
-.links a {
-    text-decoration: none;
-}
-
 .navigateLink {
     color: #490c82;
     font-size: 14px;
@@ -33,4 +23,8 @@
 
 .leftPart {
     width: 30%;
+}
+
+.rightPart {
+    width: 70%;
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import "./style/Link.css"
 
 export default class Nav extends React.Component {
     render() {
@@ -8,11 +9,9 @@ export default class Nav extends React.Component {
                 <div className="navigateLink">
                     <Link to="/profile">Profile</Link>
                 </div>
-                <br/>
                 <div className="navigateLink">
-                    <Link to="/messages">Messages</Link>
+                    <Link to="/conversations">Conversations</Link>
                 </div>
-                <br/>
                 <div className="navigateLink">
                     <Link to="/friends">Friends</Link>
                 </div>
