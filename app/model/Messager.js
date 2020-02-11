@@ -52,5 +52,18 @@ export default messager = {
     },
     async getConversation(id) {
         return await fetch(`/api/conversation?id=${id}&page=0`);
+    },
+    async sendMessage(conversationId, message) {
+        return await fetch("/../api/sendMessage", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json;charset=utf-8"
+            },
+            body: JSON.stringify({
+                username: this.user.username,
+                conversationId: conversationId,
+                message: message
+            })
+        });
     }
 }

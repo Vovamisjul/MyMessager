@@ -6,7 +6,7 @@ router.post('/', function (req, res, next) {
     if (req.body.password !== req.body.repeatPassword) {
         res.status(400).end();
     }
-    userDAO.registerUser(req.body)
+    userDAO.registerUser(req.body.username, req.body.password)
         .then(() => {
                 res.send({
                     user: {
