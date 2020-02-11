@@ -1,21 +1,19 @@
 .links {
     float: right;
-    width: 120px;
+    width: 130px;
     padding-top: 100px;
     padding-right: 10px;
 }
 
 .links a {
     text-decoration: none;
-}
-
-.navigateLink {
+    display: block;
     padding: 5px;
     color: #490c82;
     font-size: 14px;
     border-radius: 5px;
 }
 
-.navigateLink:hover {
+.links a:hover {
     background-color: white;
 }

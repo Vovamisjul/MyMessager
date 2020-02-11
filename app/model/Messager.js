@@ -48,12 +48,9 @@ export default messager = {
         });
     },
     async getConversations() {
-        return await fetch("/api/getConversations", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json;charset=utf-8"
-            },
-            body: JSON.stringify(this.user)
-        })
+        return await fetch(`/api/conversations?username=${this.user.username}`);
+    },
+    async getConversation(id) {
+        return await fetch(`/api/conversation?id=${id}&page=0`);
     }
 }

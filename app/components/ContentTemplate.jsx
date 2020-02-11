@@ -26,9 +26,7 @@ export default class ContentTemplate extends React.Component {
                         </div>
                     </div>
                     <div className="rightPart">
-                        <div className="body">
-                            {body}
-                        </div>
+                        {body}
                     </div>
                 </div>
             </div>

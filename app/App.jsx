@@ -5,6 +5,7 @@ import Login from "./components/Login.jsx";
 import Register from "./components/Register.jsx";
 import Conversations from "./components/Conversations.jsx";
 import messager from "./model/Messager";
+import Conversation from "./components/Conversation.jsx";
 
 export default class App extends React.Component {
 
@@ -17,6 +18,7 @@ export default class App extends React.Component {
                         <Route exact path="/(|login)" component={Login} />
                         <Route path="/register" component={Register} />
                         <Route path="/conversations" component={Conversations} />
+                        <Route path="/conversation/:id" component={Conversation} />
                         <Route component={NotFound} />
                     </Switch>
                 </div>

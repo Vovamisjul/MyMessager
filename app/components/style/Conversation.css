@@ -1,17 +1,59 @@
-.conversation {
-    padding: 20px;
-    cursor: pointer;
-    border-top: 1px solid #490c82;
-}
-
-.conversations {
+.conversationWindow {
     background-color: white;
-    margin-top: 100px;
     width: 80%;
     border-radius: 4px;
     border: 2px solid lavender;
+    height: calc(100% - 4px);
 }
 
-.conversation:first-child {
-    border-top: none;
+.message {
+    padding: 10px;
+}
+
+.messageMain {
+    display: flex;
+    border: 2px solid lavender;
+    border-radius: 10px;
+}
+
+.otherMessage .messageMain {
+    background-color: #e0ebff;
+}
+
+.selfMessage .messageMain {
+    background-color: #f0f1fc;
+}
+
+.messageDate {
+    font-size: 10px;
+    color: gray;
+}
+
+.sender {
+    color: black;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.messageText {
+    padding: 10px;
+    color: black;
+}
+
+.preConversationWindow {
+    height: calc(100% - 250px);
+    padding-top: 50px;
+    padding-bottom: 200px;
+}
+
+.selfMessage {
+    padding-left: 25%;
+}
+
+.selfMessage .messageDate {
+    float: right;
+}
+
+.otherMessage {
+    padding-right: 25%;
 }

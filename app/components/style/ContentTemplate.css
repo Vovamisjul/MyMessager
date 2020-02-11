@@ -14,11 +14,7 @@
 .content {
     display: flex;
     justify-content: flex-start;
-}
-
-.navigateLink {
-    color: #490c82;
-    font-size: 14px;
+    height: calc(100% - 40px);
 }
 
 .leftPart {

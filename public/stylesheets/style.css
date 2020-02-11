@@ -10,3 +10,9 @@ body{
 #app{
     height: 100%;
 }
+#app>div{
+    height: 100%;
+}
+#app>div>div{
+    height: 100%;
+}
