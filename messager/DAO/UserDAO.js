@@ -2,7 +2,7 @@ class UserDAO {
     bd = require("./bdDAO");
 
     async checkUser(username, password) {
-        let result = await this.bd.perform("select 1 from users where username = ? and password = ?", user.username, user.password);
+        let result = await this.bd.perform("select 1 from users where username = ? and password = ?", username,     password);
         return Boolean(result[0]);
     }
 

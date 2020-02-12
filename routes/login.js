@@ -1,6 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var userDAO = require('./../messager/DAO/UserDAO');
+const express = require('express');
+const router = express.Router();
+const userDAO = require('./../messager/DAO/UserDAO');
+const createJWT = require("../jwt/JWTProvider").createJWT;
 
 router.post('/', async function (req, res, next) {
     if (await userDAO.checkUser(req.body.username, req.body.password)) {
@@ -8,7 +9,9 @@ router.post('/', async function (req, res, next) {
             user: {
                 username: req.body.username
             },
-            jwt: "aaaaaaa.bbbbbbbb.ccccccc"
+            jwt: createJWT( {
+                username: req.body.username
+            })
         });
     }
     else {

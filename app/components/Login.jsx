@@ -13,10 +13,10 @@ export default class Login extends React.Component{
         this.state = {
             incorrectCredentials: false,
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.login = this.login.bind(this);
     }
 
-    async handleSubmit(event) {
+    async login(event) {
         event.preventDefault();
         let response = await messager.login(this.username.current.value, this.password.current.value);
         if (response.ok) {
@@ -45,7 +45,7 @@ export default class Login extends React.Component{
 
                 </div>
                 <div className="registerContent">
-                    <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.login}>
                         <h1>Username</h1>
                         <input
                             placeholder="Username"

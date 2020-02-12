@@ -2,6 +2,7 @@ import React from 'react';
 import ContentTemplate from "./ContentTemplate.jsx"
 import messager from "../model/Messager";
 import "./style/Conversation.css"
+import FileDrop from "react-file-drop";
 
 export default class Conversations extends ContentTemplate {
 
@@ -9,13 +10,16 @@ export default class Conversations extends ContentTemplate {
         super(props);
         this.message = React.createRef();
         this.sendMessage = this.sendMessage.bind(this);
+        this.onFrameDragLeave = this.onFrameDragLeave.bind(this);
+        this.onFrameDragEnter = this.onFrameDragEnter.bind(this);
     }
 
     async componentDidMount() {
         let response = await messager.getConversation(this.props.match.params.id);
         if (response.ok) {
             this.setState({
-                messages: await response.json()
+                messages: await response.json(),
+                holdingFile: false
             });
         }
     }
@@ -30,9 +34,49 @@ export default class Conversations extends ContentTemplate {
         if (response.ok) {
             let result = await response.json();
             this.setState({
-                messages: this.state.messages.concat(result)
+                messages: this.state.messages.concat(result),
+                holdingFile: this.state.holdingFile
             });
+            this.message.current.value = "";
         }
+    }
+
+    onFrameDragLeave() {
+        this.setState({
+            messages: this.state.messages,
+            holdingFile: false
+        });
+    }
+
+    onFrameDrop() {
+        this.setState({
+            messages: this.state.messages,
+            holdingFile: false
+        });
+    }
+
+    onDrop() {
+        this.setState({
+            messages: this.state.messages,
+            holdingFile: false
+        });
+    }
+
+    onDragLeave() {
+        console.log("onDragLeave");
+        console.log(arguments);
+    }
+
+    onDragOver() {
+        console.log("onDragOver");
+        console.log(arguments);
+    }
+
+    onFrameDragEnter() {
+        this.setState({
+            messages: this.state.messages,
+            holdingFile: true
+        });
     }
 
     render() {
@@ -57,11 +101,16 @@ export default class Conversations extends ContentTemplate {
                         }
                     </div>
                     <div className="messageForm">
-                        <form onSubmit={this.sendMessage}>
+                        <div className="inputArea">
                             <textarea ref={this.message} placeholder="Type your text here"/>
-                            <input type='submit'/>
-                        </form>
+                        </div>
+                        <div className="submitMessage">
+                            <div className="buttonSend" onClick={this.sendMessage}>Send</div>
+                        </div>
                     </div>
+                    <FileDrop onFrameDragLeave={this.onFrameDragLeave} onFrameDragEnter={this.onFrameDragEnter} onFrameDrop={this.onFrameDrop} onDrop={this.onDrop} onDragLeave={this.onDragLeave} onDragOver={this.onDragOver}>
+                        { this.state && this.state.holdingFile && <div>Drop file here</div>}
+                    </FileDrop>
                 </div>
             )
     }

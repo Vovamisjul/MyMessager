@@ -26,7 +26,8 @@ export default messager = {
         return await fetch("/api/login", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json;charset=utf-8"
+                "Content-Type": "application/json;charset=utf-8",
+                "Authorization": `Bearer ${this.jwt}`
             },
             body: JSON.stringify({
                 username: username,
@@ -38,7 +39,8 @@ export default messager = {
         return await fetch("/api/register", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json;charset=utf-8"
+                "Content-Type": "application/json;charset=utf-8",
+                "Authorization": `Bearer ${this.jwt}`
             },
             body: JSON.stringify({
                 username: username,
@@ -48,16 +50,25 @@ export default messager = {
         });
     },
     async getConversations() {
-        return await fetch(`/api/conversations?username=${this.user.username}`);
+        return await fetch(`/api/conversations?username=${this.user.username}`, {
+            headers: {
+                "Authorization": `Bearer ${this.jwt}`
+            }
+        });
     },
     async getConversation(id) {
-        return await fetch(`/api/conversation?id=${id}&page=0`);
+        return await fetch(`/api/conversation?id=${id}&page=0`, {
+            headers: {
+                "Authorization": `Bearer ${this.jwt}`
+            }
+        });
     },
     async sendMessage(conversationId, message) {
         return await fetch("/../api/sendMessage", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json;charset=utf-8"
+                "Content-Type": "application/json;charset=utf-8",
+                "Authorization": `Bearer ${this.jwt}`
             },
             body: JSON.stringify({
                 username: this.user.username,
