@@ -26,8 +26,7 @@ export default messager = {
         return await fetch("/api/login", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json;charset=utf-8",
-                "Authorization": `Bearer ${this.jwt}`
+                "Content-Type": "application/json;charset=utf-8"
             },
             body: JSON.stringify({
                 username: username,
@@ -39,8 +38,7 @@ export default messager = {
         return await fetch("/api/register", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json;charset=utf-8",
-                "Authorization": `Bearer ${this.jwt}`
+                "Content-Type": "application/json;charset=utf-8"
             },
             body: JSON.stringify({
                 username: username,
@@ -52,14 +50,14 @@ export default messager = {
     async getConversations() {
         return await fetch(`/api/conversations?username=${this.user.username}`, {
             headers: {
-                "Authorization": `Bearer ${this.jwt}`
+                "Authorization": `Bearer ${this.jwt.token}`
             }
         });
     },
     async getConversation(id) {
         return await fetch(`/api/conversation?id=${id}&page=0`, {
             headers: {
-                "Authorization": `Bearer ${this.jwt}`
+                "Authorization": `Bearer ${this.jwt.token}`
             }
         });
     },
@@ -68,7 +66,7 @@ export default messager = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json;charset=utf-8",
-                "Authorization": `Bearer ${this.jwt}`
+                "Authorization": `Bearer ${this.jwt.token}`
             },
             body: JSON.stringify({
                 username: this.user.username,
@@ -76,5 +74,17 @@ export default messager = {
                 message: message
             })
         });
+    },
+    startRefreshTokens() {
+        setInterval(async function () {
+            let response = await fetch("api/token", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json;charset=utf-8"
+                },
+                body: JSON.stringify({refreshToken: this.jwt.refreshToken})
+            });
+            this.jwt = await response.json();
+        }.bind(this), 60 * 1000);
     }
 }

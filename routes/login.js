@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userDAO = require('./../messager/DAO/UserDAO');
-const createJWT = require("../jwt/JWTProvider").createJWT;
+const jstProvider = require("../jwt/JWTProvider");
 
 router.post('/', async function (req, res, next) {
     if (await userDAO.checkUser(req.body.username, req.body.password)) {
@@ -9,7 +9,7 @@ router.post('/', async function (req, res, next) {
             user: {
                 username: req.body.username
             },
-            jwt: createJWT( {
+            jwt: jstProvider.createJWT( {
                 username: req.body.username
             })
         });

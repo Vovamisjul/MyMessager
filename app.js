@@ -10,6 +10,7 @@ var profileRouter = require('./routes/profile');
 var conversationsRouter = require('./routes/conversations');
 var conversationRouter = require('./routes/conversation');
 var sendMessageRouter = require('./routes/sendMessage');
+var tokenRouter = require('./routes/token');
 const authorisationFilter = require("./filters/AuthorisationFilter");
 
 var app = express();
@@ -19,11 +20,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use("/conversation", express.static(path.join(__dirname, 'public')));
 
-app.use('/api/*', authorisationFilter.requireAuthentication);
 
 app.use('/api/login', loginRouter);
 app.use('/api/register', registerRouter);
+app.use('/api/token', tokenRouter);
+app.use('/api/*', authorisationFilter.requireAuthentication);
+
 app.use('/api/profile', profileRouter);
 app.use('/api/conversations', conversationsRouter);
 app.use('/api/conversation', conversationRouter);

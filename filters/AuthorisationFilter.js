@@ -1,12 +1,13 @@
-const checkJWT = require("../jwt/JWTProvider").checkJWT;
+const jwtProvider = require("../jwt/JWTProvider");
 const authorisationFilter = {
     requireAuthentication(req, res, next) {
         if (req.get('Authorization')) {
             try {
-                checkJWT(req.get('Authorization').substr("Bearer ".length));
+                jwtProvider.checkJWT(req.get('Authorization').substr("Bearer ".length));
                 next();
             }
             catch (e) {
+                console.log(e);
                 res.status(401).end();
             }
         } else {

@@ -35,12 +35,12 @@ export default class ContentTemplate extends React.Component {
 
     logout() {
         messager.logout();
-        this.props.history.push("login");
+        this.props.history.push("/");
     }
 
     redirectIfNotLogged() {
         if (!messager.isLogged()) {
-            return <Redirect to="login"/>;
+            return <Redirect to="/"/>;
         }
     }
 }
