@@ -4,7 +4,7 @@ import messager from "../model/Messager";
 import {Link} from 'react-router-dom';
 import "./style/Common.css"
 
-export default class Login extends React.Component{
+export default class Login extends React.Component {
 
     constructor(props) {
         super(props);
@@ -18,15 +18,15 @@ export default class Login extends React.Component{
 
     async login(event) {
         event.preventDefault();
-        let response = await messager.login(this.username.current.value, this.password.current.value);
-        if (response.ok) {
-            let result = await response.json();
-            messager.saveUser(result);
+        try {
+            let user = await messager.login(this.username.current.value, this.password.current.value);
+            messager.saveUser(user);
             this.setState({
                 incorrectCredentials: false,
             });
             this.props.history.push("conversations");
-        } else {
+        } catch (e) {
+            console.log(e);
             this.setState({
                 incorrectCredentials: true,
             });
@@ -34,9 +34,9 @@ export default class Login extends React.Component{
     };
 
     render() {
-        const { incorrectCredentials } = this.state;
+        const {incorrectCredentials} = this.state;
         if (messager.isLogged()) {
-            return <Redirect to="/conversations" />;
+            return <Redirect to="/conversations"/>;
         }
 
         return (

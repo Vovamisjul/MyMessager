@@ -9,12 +9,32 @@
 
 .message {
     padding: 10px;
+    width: fit-content;
+    clear: both;
+    max-width: 75%;
+}
+
+.senderText {
+    display: flex;
 }
 
 .messageMain {
-    display: flex;
     border: 2px solid lavender;
     border-radius: 10px;
+}
+
+.messageFile {
+    padding: 10px;
+    background-color: #dedeee;
+    margin: 10px;
+    border-radius: 4px;
+    width: fit-content;
+    cursor: pointer;
+}
+
+.messageFile a {
+    color: black;
+    text-decoration: none;
 }
 
 .otherMessage .messageMain {
@@ -39,6 +59,7 @@
 .messageText {
     padding: 10px;
     color: black;
+    word-break: break-word;
 }
 
 .preConversationWindow {
@@ -49,6 +70,7 @@
 
 .selfMessage {
     padding-left: 25%;
+    float: right;
 }
 
 .selfMessage .messageDate {

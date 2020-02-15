@@ -11,7 +11,6 @@ export default class App extends React.Component {
 
     render() {
         messager.restoreUser();
-        messager.startRefreshTokens();
         return (
             <Router>
                 <div>

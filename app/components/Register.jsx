@@ -18,25 +18,24 @@ export default class Register extends React.Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-        let response = await messager.register(this.username.current.value, this.password.current.value, this.repeatPassword.current.value);
-        if (response.ok) {
-            let result = await response.json();
-            messager.saveUser(result);
+        try {
+            let user = await messager.register(this.username.current.value, this.password.current.value, this.repeatPassword.current.value);
+            messager.saveUser(user);
             this.setState({
                 existingLogin: true,
                 differentPasswords: true,
             });
             this.props.history.push("conversations");
-        } else {
-            console.log(response);
-            switch (response.status) {
-                case 400:
+        } catch (e) {
+            console.log(e);
+            switch (e.message) {
+                case "400":
                     this.setState({
                         existingLogin: false,
                         differentPasswords: true,
                     });
                     break;
-                case 403:
+                case "403":
                     this.setState({
                         existingLogin: true,
                         differentPasswords: false,

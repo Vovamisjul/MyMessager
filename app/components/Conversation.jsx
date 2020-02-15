@@ -3,18 +3,21 @@ import ContentTemplate from "./ContentTemplate.jsx"
 import messager from "../model/Messager";
 import "./style/Conversation.css"
 import FileDrop from "react-file-drop";
-import inherits from "@babel/runtime/helpers/esm/inherits";
+import { animateScroll } from "react-scroll";
+import ReactTooltip from "react-tooltip";
 
 export default class Conversations extends ContentTemplate {
 
     constructor(props) {
         super(props);
         this.message = React.createRef();
+        this.messagesEnd = React.createRef();
         this.sendMessage = this.sendMessage.bind(this);
         this.onFrameDragEnter = this.onFrameDragEnter.bind(this);
         this.onFrameDragLeave = this.onFrameDragLeave.bind(this);
         this.onFrameDrop = this.onFrameDrop.bind(this);
         this.onDrop = this.onDrop.bind(this);
+        this.scrollToBottom = this.scrollToBottom.bind(this);
     }
 
     getInitialState() {
@@ -24,53 +27,67 @@ export default class Conversations extends ContentTemplate {
         };
     }
 
+    scrollToBottom() {
+        animateScroll.scrollToBottom({
+            containerId: "conversationWindow",
+            duration: 0,
+            delay: 0
+        });
+    }
+
     async componentDidMount() {
-        let response = await messager.getConversation(this.props.match.params.id);
-        if (response.ok) {
+        try {
+            let messages = await messager.getConversation(this.props.match.params.id);
             this.setState({
-                messages: await response.json(),
+                messages: messages,
                 holdingFile: false
             });
+            this.scrollToBottom();
+        } catch (e) {
+            console.log(e);
         }
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
     }
 
     async sendMessage(event) {
         event.preventDefault();
-        let message = {
-            text: this.message.current.value,
-            file: this.state.file
-        };
-        let response = await messager.sendMessage(this.props.match.params.id, message);
-        if (response.ok) {
-            let result = await response.json();
+        try {
+            let selfMessage = await messager.sendMessage(this.props.match.params.id, this.message.current.value, this.state.file, (file) => {
+                //this.state.messages[this.state.messages.length - 1].file = file;
+                //this.setState();
+                console.log(file);
+            });
             this.setState({
-                messages: this.state.messages.concat(result),
-                holdingFile: this.state.holdingFile
+                messages: this.state.messages.concat(selfMessage),
+                file: null
             });
             this.message.current.value = "";
+        } catch (e) {
+            console.log(e);
         }
+    }
+
+    async downloadFile(messageId) {
+        await messager.downloadFile(messageId);
     }
 
     onFrameDragLeave() {
         this.setState({
-            messages: this.state.messages,
-            holdingFile: false,
-            file: this.state.file
+            holdingFile: false
         });
     }
 
     onFrameDrop() {
         this.setState({
-            messages: this.state.messages,
-            holdingFile: false,
-            file: this.state.file
+            holdingFile: false
         });
     }
 
     onDrop(fileList) {
-        console.log("111");
         this.setState({
-            messages: this.state.messages,
             holdingFile: false,
             file: fileList[0]
         });
@@ -84,26 +101,31 @@ export default class Conversations extends ContentTemplate {
 
     onFrameDragEnter() {
         this.setState({
-            messages: this.state.messages,
-            holdingFile: true,
-            file: this.state.file
+            holdingFile: true
         });
-        console.log(this.state && this.state.holdingFile && <div>s</div>);
     }
 
     render() {
         return this.redirectIfNotLogged() ||
             this.createWithTemplate(
                 <div className="preConversationWindow">
-                    <div className="conversationWindow">
+                    <div className="conversationWindow" id="conversationWindow">
                         {
                             this.state && this.state.messages.map((message) => {
                                 return (
                                     <div
                                         className={`message ${message.sender_username === messager.user.username ? "selfMessage" : "otherMessage"}`}>
                                         <div className="messageMain">
-                                            <div className="sender">{message.sender_username}:</div>
-                                            <div className="messageText">{message.text}</div>
+                                            <div className="senderText">
+                                                <div className="sender">{message.sender_username}:</div>
+                                                <div className="messageText">{message.text}</div>
+                                            </div>
+                                            {
+                                                message.file_name && <div className="messageFile" data-tip="Download">
+                                                    <a href={`/api/getFile?messageId=${message.id}&token=${messager.jwt.token}`} download={message.file_name}>{message.file_name}</a>
+                                                </div>
+                                            }
+                                            <ReactTooltip/>
                                         </div>
                                         <div className="messageDate">
                                             {new Date(message.date).toLocaleString()}
@@ -121,10 +143,12 @@ export default class Conversations extends ContentTemplate {
                             <div className="buttonSend" onClick={this.sendMessage}>Send</div>
                         </div>
                     </div>
-                    <FileDrop className={this.state && this.state.holdingFile ? "file-drop file-drop-visible" : "file-drop file-drop-invisible"} onFrameDragLeave={this.onFrameDragLeave} onFrameDragEnter={this.onFrameDragEnter}
-                              onFrameDrop={this.onFrameDrop} onDrop={this.onDrop} onDragLeave={this.onDragLeave}
-                              onDragOver={this.onDragOver}>
-                        { this.state && this.state.holdingFile && "Drop file here" }
+                    <FileDrop
+                        className={this.state && this.state.holdingFile ? "file-drop file-drop-visible" : "file-drop file-drop-invisible"}
+                        onFrameDragLeave={this.onFrameDragLeave} onFrameDragEnter={this.onFrameDragEnter}
+                        onFrameDrop={this.onFrameDrop} onDrop={this.onDrop} onDragLeave={this.onDragLeave}
+                        onDragOver={this.onDragOver}>
+                        {this.state && this.state.holdingFile && "Drop file here"}
                     </FileDrop>
                     {
                         this.state && this.state.file &&

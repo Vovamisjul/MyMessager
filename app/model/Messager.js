@@ -2,6 +2,7 @@ let messager;
 export default messager = {
     user: null,
     jwt: "",
+    resendingReq: false,
     isLogged() {
         return Boolean(this.user);
     },
@@ -23,10 +24,10 @@ export default messager = {
         window.localStorage.removeItem("user_info");
     },
     async login(username, password) {
-        return await fetch("/api/login", {
+        return await this.sendRequest("/api/login", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json;charset=utf-8"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 username: username,
@@ -35,10 +36,10 @@ export default messager = {
         });
     },
     async register(username, password, repeatPassword) {
-        return await fetch("/api/register", {
+        return await this.sendRequest("/api/register", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json;charset=utf-8"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 username: username,
@@ -48,43 +49,80 @@ export default messager = {
         });
     },
     async getConversations() {
-        return await fetch(`/api/conversations?username=${this.user.username}`, {
+        return await this.sendRequest(`/api/conversations?username=${this.user.username}`, {
             headers: {
                 "Authorization": `Bearer ${this.jwt.token}`
             }
         });
     },
     async getConversation(id) {
-        return await fetch(`/api/conversation?id=${id}&page=0`, {
+        return await this.sendRequest(`/api/conversation?id=${id}&page=0`, {
             headers: {
                 "Authorization": `Bearer ${this.jwt.token}`
             }
         });
     },
-    async sendMessage(conversationId, message) {
-        return await fetch("/../api/sendMessage", {
+    async sendMessage(conversationId, text, file, onFileSend) {
+        console.log(file ? file.name : null);
+        let result = await this.sendRequest("/api/sendMessage", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json;charset=utf-8",
+                "Content-Type": "application/json",
                 "Authorization": `Bearer ${this.jwt.token}`
             },
             body: JSON.stringify({
                 username: this.user.username,
                 conversationId: conversationId,
-                message: message
+                text: text,
+                fileName: file ? file.name : null
             })
         });
-    },
-    startRefreshTokens() {
-        setInterval(async function () {
-            let response = await fetch("api/token", {
-                method: "POST",
+        if (file) {
+            let formData = new FormData();
+            formData.append('file', file);
+            fetch(`/api/addFile?messageId=${result.id}`, {
+                method: "PUT",
                 headers: {
-                    "Content-Type": "application/json;charset=utf-8"
+                    "Authorization": `Bearer ${this.jwt.token}`
                 },
-                body: JSON.stringify({refreshToken: this.jwt.refreshToken})
-            });
-            this.jwt = await response.json();
-        }.bind(this), 60 * 1000);
+                body: formData
+            }).then(response => onFileSend(response));
+        }
+        return result;
+    },
+    async downloadFile(messageId) {
+        let response = await fetch(`/api/getFile?messageId=${messageId}`, {
+            headers: {
+                "Authorization": `Bearer ${this.jwt.token}`
+            }
+        });
+        let result = await response.json();
+    },
+    async sendRequest(route, params) {
+        let response = await fetch(route, params);
+        if (!response.ok) {
+            if (response.status === 401 && !this.resendingReq) {
+                this.resendingReq = true;
+                await this.updateToken();
+                params.headers["Authorization"] = `Bearer ${this.jwt.token}`;
+                return await this.sendRequest(route, params);
+            }
+            if (this.resendingReq)
+                throw new Error(response.status.toString());
+        }
+        return await response.json();
+    },
+    async updateToken() {
+        this.jwt = await this.sendRequest("/api/token", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({refreshToken: this.jwt.refreshToken})
+        });
+        window.localStorage.setItem("user_info", JSON.stringify({
+            user: this.user,
+            jwt: this.jwt
+        }));
     }
 }

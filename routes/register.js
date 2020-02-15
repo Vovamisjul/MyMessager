@@ -15,9 +15,9 @@ router.post('/', function (req, res, next) {
                     jwt: "aaaaaaa.bbbbbbbb.ccccccc"
                 });
             },
-            () => {
-                res.status(403).end();
-            });
+            () => res.status(403).end()
+        )
+    ;
 });
 
 module.exports = router;

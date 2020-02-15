@@ -6,11 +6,13 @@ import "./style/Conversations.css"
 export default class Conversations extends ContentTemplate {
 
     async componentDidMount() {
-        let response = await messager.getConversations();
-        if (response.ok) {
+        try {
+            let conversations = await messager.getConversations();
             this.setState({
-                conversations: await response.json()
+                conversations: conversations
             });
+        } catch (e) {
+            console.log(e);
         }
     }
 

@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var userDAO = require('./../messager/DAO/UserDAO');
+const express = require('express');
+const router = express.Router();
+const conversationDAO = require('./../messager/DAO/ConversationDAO');
 
 router.get('/', async function(req, res, next) {
-    res.send(await userDAO.getConversations(req.query.username));
+    res.send(await conversationDAO.getConversations(req.query.username));
 });
 
 module.exports = router;

@@ -10,6 +10,8 @@ var profileRouter = require('./routes/profile');
 var conversationsRouter = require('./routes/conversations');
 var conversationRouter = require('./routes/conversation');
 var sendMessageRouter = require('./routes/sendMessage');
+var addFileRouter = require('./routes/addFile');
+var getFileRouter = require('./routes/getFile');
 var tokenRouter = require('./routes/token');
 const authorisationFilter = require("./filters/AuthorisationFilter");
 
@@ -26,12 +28,15 @@ app.use("/conversation", express.static(path.join(__dirname, 'public')));
 app.use('/api/login', loginRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/token', tokenRouter);
+app.use('/api/getFile', getFileRouter);
+
 app.use('/api/*', authorisationFilter.requireAuthentication);
 
 app.use('/api/profile', profileRouter);
 app.use('/api/conversations', conversationsRouter);
 app.use('/api/conversation', conversationRouter);
 app.use('/api/sendMessage', sendMessageRouter);
+app.use('/api/addFile', addFileRouter);
 app.use('/', indexRouter);
 app.use('/login', indexRouter);
 app.use('/register', indexRouter);
