@@ -19,12 +19,14 @@ export default class Conversations extends ContentTemplate {
     render() {
         return this.redirectIfNotLogged() ||
             this.createWithTemplate(
-                <div className="preConversations">
-                    <div className="conversations">
+                <div className="preComponent">
+                    <div className="list">
                         {
                             this.state && this.state.conversations.map((conversation) => {
-                                return <div className="conversation"
-                                            onClick={() => this.goToConversation(conversation.id)}>{conversation.name}</div>
+                                return <div className="listElement"
+                                            onClick={() => this.goToConversation(conversation.id)}>
+                                    <div className="conversationName">{conversation.name}</div>
+                                </div>
                             })
                         }
                     </div>

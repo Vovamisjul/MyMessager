@@ -1,21 +1,24 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var registerRouter = require('./routes/register');
-var loginRouter = require('./routes/login');
-var profileRouter = require('./routes/profile');
-var conversationsRouter = require('./routes/conversations');
-var conversationRouter = require('./routes/conversation');
-var sendMessageRouter = require('./routes/sendMessage');
-var addFileRouter = require('./routes/addFile');
-var getFileRouter = require('./routes/getFile');
-var tokenRouter = require('./routes/token');
+const indexRouter = require('./routes/index');
+const registerRouter = require('./routes/register');
+const loginRouter = require('./routes/login');
+const profileRouter = require('./routes/profile');
+const friendsRouter = require('./routes/friends');
+const conversationsRouter = require('./routes/conversations');
+const conversationRouter = require('./routes/conversation');
+const sendMessageRouter = require('./routes/sendMessage');
+const addFileRouter = require('./routes/addFile');
+const getFileRouter = require('./routes/getFile');
+const findUsersRouter = require('./routes/findUsers');
+const tokenRouter = require('./routes/token');
+const friendRequestRouter = require("./routes/friendRequest");
 const authorisationFilter = require("./filters/AuthorisationFilter");
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -33,13 +36,18 @@ app.use('/api/getFile', getFileRouter);
 app.use('/api/*', authorisationFilter.requireAuthentication);
 
 app.use('/api/profile', profileRouter);
+app.use('/api/friends', friendsRouter);
 app.use('/api/conversations', conversationsRouter);
 app.use('/api/conversation', conversationRouter);
 app.use('/api/sendMessage', sendMessageRouter);
 app.use('/api/addFile', addFileRouter);
+app.use('/api/findUsers', findUsersRouter);
+app.use('/api/friendRequest', friendRequestRouter);
 app.use('/', indexRouter);
 app.use('/login', indexRouter);
 app.use('/register', indexRouter);
+app.use('/friends', indexRouter);
+app.use('/user/*', indexRouter);
 app.use('/conversations', indexRouter);
 app.use('/conversation/*', indexRouter);
 

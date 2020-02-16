@@ -1,0 +1,40 @@
+.addFriend {
+    width: 80%;
+}
+
+.addFriend input {
+    width: calc(100% - 20px);
+    border-radius: 4px;
+    border: 2px solid lavender;
+    padding: 10px;
+    font-size: 16px;
+    resize: none;
+}
+
+.addFriend input:focus {
+    outline: none;
+}
+
+.noResult {
+    width: 80%;
+    text-align: center;
+    padding-top: 50px;
+    color: gray;
+}
+
+.friendName {
+    padding: 20px;
+}
+
+.findUserName {
+    padding: 20px;
+}
+
+.addFriendReq {
+    background: #e0e2ff;
+    margin: 10px;
+    padding-top: 10px;
+    width: 100px;
+    text-align: center;
+    border-radius: 5px;
+}

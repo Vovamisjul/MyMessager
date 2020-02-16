@@ -62,12 +62,6 @@
     word-break: break-word;
 }
 
-.preConversationWindow {
-    height: calc(100% - 250px);
-    padding-top: 50px;
-    padding-bottom: 200px;
-}
-
 .selfMessage {
     padding-left: 25%;
     float: right;
@@ -140,4 +134,8 @@
     margin-top: 10px;
     border-radius: 4px;
     width: fit-content;
+}
+
+.conversationName {
+    padding: 20px;
 }

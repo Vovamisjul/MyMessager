@@ -96,7 +96,37 @@ export default messager = {
                 "Authorization": `Bearer ${this.jwt.token}`
             }
         });
+        if (!response.ok) {
+            throw new Error(response.status.toString())
+        }
         let result = await response.json();
+    },
+    async getFriends() {
+        return await this.sendRequest(`api/friends?username=${this.user.username}`, {
+            headers: {
+                "Authorization": `Bearer ${this.jwt.token}`
+            }
+        });
+    },
+    async sendFriendRequest(friendUsername) {
+        await this.sendRequest("api/friendRequest", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${this.jwt.token}`
+            },
+            body: JSON.stringify({
+                friendUsername: friendUsername,
+                username: this.user.username
+            })
+        });
+    },
+    async findUsers(username) {
+        return await this.sendRequest(`api/findUsers?username=${this.user.username}&searchUsername=${username}`, {
+            headers: {
+                "Authorization": `Bearer ${this.jwt.token}`
+            }
+        });
     },
     async sendRequest(route, params) {
         let response = await fetch(route, params);

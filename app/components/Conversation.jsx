@@ -66,7 +66,11 @@ export default class Conversations extends ContentTemplate {
             });
             this.message.current.value = "";
         } catch (e) {
-            console.log(e);
+            if (e.message === "401") {
+                this.setState({
+                    redirectToLogin: true
+                });
+            }
         }
     }
 
@@ -108,7 +112,7 @@ export default class Conversations extends ContentTemplate {
     render() {
         return this.redirectIfNotLogged() ||
             this.createWithTemplate(
-                <div className="preConversationWindow">
+                <div className="preComponent">
                     <div className="conversationWindow" id="conversationWindow">
                         {
                             this.state && this.state.messages.map((message) => {
