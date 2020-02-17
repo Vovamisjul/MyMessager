@@ -9,6 +9,7 @@ export default class Nav extends React.Component {
                 <Link to="/profile">Profile</Link>
                 <Link to="/conversations">Conversations</Link>
                 <Link to="/friends">Friends</Link>
+                <Link to="/friendRequests">Friend requests</Link>
             </nav>
         );
     }

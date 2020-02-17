@@ -25,7 +25,9 @@ export default class Friends extends ContentTemplate {
                 foundUsers: users
             });
         } catch (e) {
-            console.log(e);
+            if (e.message === "401") {
+                this.props.history.push("/");
+            }
         }
     }
 
@@ -36,7 +38,9 @@ export default class Friends extends ContentTemplate {
                 friends: friends
             });
         } catch (e) {
-            console.log(e);
+            if (e.message === "401") {
+                this.props.history.push("/");
+            }
         }
     }
 
@@ -52,7 +56,9 @@ export default class Friends extends ContentTemplate {
                 foundUsers: this.state.foundUsers.filter(user => user.username !== friendUsername)
             })
         } catch (e) {
-            console.log(e);
+            if (e.message === "401") {
+                this.props.history.push("/");
+            }
         }
     }
 
@@ -85,15 +91,17 @@ export default class Friends extends ContentTemplate {
                                         <div className="noResult"> No users with this username</div>
                                 }
                             </div> :
-                            <div className="list">
-                                {
-                                    this.state && this.state.friends.map((friend) => {
-                                        return <div className="listElement"
-                                                    onClick={() => this.showUser(friend.username)}>
-                                            <div className="friendName">{friend.username}</div>
-                                        </div>
-                                    })
-                                }
+                            <div>
+                                <div className="list">
+                                    {
+                                        this.state && this.state.friends.map((friend) => {
+                                            return <div className="listElement"
+                                                        onClick={() => this.showUser(friend.username)}>
+                                                <div className="friendName">{friend.username}</div>
+                                            </div>
+                                        })
+                                    }
+                                </div>
                             </div>
                     }
                 </div>);

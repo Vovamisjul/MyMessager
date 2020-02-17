@@ -24,8 +24,16 @@ class UserDAO {
         return await this.bd.perform("select username from users where username not in (select friend_username from user_friends where username = ?) and username like ? and username != ? limit 10", username, `%${searchUsername}%`, username);
     }
 
-    async friendRequest(username, friendUsername) {
+    async sendFriendRequest(username, friendUsername) {
         await this.bd.perform("insert into user_friends values (?, ?, 0), (?, ?, 0)", username, friendUsername, friendUsername, username);
+    }
+
+    async getFriendRequests(username) {
+        return await this.bd.perform("select friend_username as username from user_friends where username = ? and accepted = 0", username);
+    }
+
+    async acceptFriend(username, friendUsername) {
+        await this.bd.perform("update user_friends set accepted = 1 where username = ? and friend_username = ? or username = ? and friend_username = ?", username, friendUsername, friendUsername, username)
     }
 }
 

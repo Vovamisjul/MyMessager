@@ -39,6 +39,7 @@ export default class ContentTemplate extends React.Component {
     }
 
     redirectIfNotLogged() {
+        console.log("12");
         if (!messager.isLogged()) {
             return <Redirect to="/"/>;
         }

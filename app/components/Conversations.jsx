@@ -12,7 +12,9 @@ export default class Conversations extends ContentTemplate {
                 conversations: conversations
             });
         } catch (e) {
-            console.log(e);
+            if (e.message === "401") {
+                this.props.history.push("/");
+            }
         }
     }
 
@@ -20,15 +22,17 @@ export default class Conversations extends ContentTemplate {
         return this.redirectIfNotLogged() ||
             this.createWithTemplate(
                 <div className="preComponent">
-                    <div className="list">
-                        {
-                            this.state && this.state.conversations.map((conversation) => {
-                                return <div className="listElement"
-                                            onClick={() => this.goToConversation(conversation.id)}>
-                                    <div className="conversationName">{conversation.name}</div>
-                                </div>
-                            })
-                        }
+                    <div>
+                        <div className="list">
+                            {
+                                this.state && this.state.conversations.map((conversation) => {
+                                    return <div className="listElement"
+                                                onClick={() => this.goToConversation(conversation.id)}>
+                                        <div className="conversationName">{conversation.name}</div>
+                                    </div>
+                                })
+                            }
+                        </div>
                     </div>
                 </div>
             )

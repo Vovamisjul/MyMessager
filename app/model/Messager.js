@@ -121,11 +121,31 @@ export default messager = {
             })
         });
     },
+    async getFriendRequests() {
+        return await this.sendRequest(`api/friendRequests?username=${this.user.username}`, {
+            headers: {
+                "Authorization": `Bearer ${this.jwt.token}`
+            }
+        });
+    },
     async findUsers(username) {
         return await this.sendRequest(`api/findUsers?username=${this.user.username}&searchUsername=${username}`, {
             headers: {
                 "Authorization": `Bearer ${this.jwt.token}`
             }
+        });
+    },
+    async acceptFriend(friendUsername) {
+        await this.sendRequest("api/acceptFriend", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${this.jwt.token}`
+            },
+            body: JSON.stringify({
+                friendUsername: friendUsername,
+                username: this.user.username
+            })
         });
     },
     async sendRequest(route, params) {
@@ -137,8 +157,10 @@ export default messager = {
                 params.headers["Authorization"] = `Bearer ${this.jwt.token}`;
                 return await this.sendRequest(route, params);
             }
-            if (this.resendingReq)
+            if (this.resendingReq) {
+                this.logout();
                 throw new Error(response.status.toString());
+            }
         }
         return await response.json();
     },

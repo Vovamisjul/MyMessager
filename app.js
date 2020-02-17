@@ -16,6 +16,8 @@ const getFileRouter = require('./routes/getFile');
 const findUsersRouter = require('./routes/findUsers');
 const tokenRouter = require('./routes/token');
 const friendRequestRouter = require("./routes/friendRequest");
+const friendRequestsRouter = require("./routes/friendRequests");
+const acceptFriendRouter = require("./routes/acceptFriend");
 const authorisationFilter = require("./filters/AuthorisationFilter");
 
 const app = express();
@@ -43,12 +45,15 @@ app.use('/api/sendMessage', sendMessageRouter);
 app.use('/api/addFile', addFileRouter);
 app.use('/api/findUsers', findUsersRouter);
 app.use('/api/friendRequest', friendRequestRouter);
+app.use('/api/friendRequests', friendRequestsRouter);
+app.use('/api/acceptFriend', acceptFriendRouter);
 app.use('/', indexRouter);
 app.use('/login', indexRouter);
 app.use('/register', indexRouter);
 app.use('/friends', indexRouter);
 app.use('/user/*', indexRouter);
 app.use('/conversations', indexRouter);
+app.use('/friendRequests', indexRouter);
 app.use('/conversation/*', indexRouter);
 
 module.exports = app;

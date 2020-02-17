@@ -44,7 +44,9 @@ export default class Conversations extends ContentTemplate {
             });
             this.scrollToBottom();
         } catch (e) {
-            console.log(e);
+            if (e.message === "401") {
+                this.props.history.push("/");
+            }
         }
     }
 
@@ -67,9 +69,7 @@ export default class Conversations extends ContentTemplate {
             this.message.current.value = "";
         } catch (e) {
             if (e.message === "401") {
-                this.setState({
-                    redirectToLogin: true
-                });
+                this.props.history.push("/");
             }
         }
     }
