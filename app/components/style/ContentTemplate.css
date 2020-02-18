@@ -53,3 +53,10 @@
 .listElement:hover {
     background-color: #ededf7;
 }
+
+.noResult {
+    width: 80%;
+    text-align: center;
+    padding-top: 50px;
+    color: gray;
+}

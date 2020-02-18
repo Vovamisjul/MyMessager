@@ -92,16 +92,20 @@ export default class Friends extends ContentTemplate {
                                 }
                             </div> :
                             <div>
-                                <div className="list">
-                                    {
-                                        this.state && this.state.friends.map((friend) => {
-                                            return <div className="listElement"
-                                                        onClick={() => this.showUser(friend.username)}>
-                                                <div className="friendName">{friend.username}</div>
-                                            </div>
-                                        })
-                                    }
-                                </div>
+                                {
+                                    this.state && this.state.friends && this.state.friends.length > 0 ?
+                                        <div className="list">
+                                            {
+                                                this.state.friends.map((friend) => {
+                                                    return <div className="listElement"
+                                                                onClick={() => this.showUser(friend.username)}>
+                                                        <div className="friendName">{friend.username}</div>
+                                                    </div>
+                                                })
+                                            }
+                                        </div> :
+                                        <div className="noResult">There are no friends - add them</div>
+                                }
                             </div>
                     }
                 </div>);

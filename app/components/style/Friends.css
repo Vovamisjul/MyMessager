@@ -15,13 +15,6 @@
     outline: none;
 }
 
-.noResult {
-    width: 80%;
-    text-align: center;
-    padding-top: 50px;
-    color: gray;
-}
-
 .friendName {
     padding: 20px;
 }

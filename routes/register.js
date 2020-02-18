@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var userDAO = require('./../messager/DAO/UserDAO');
+const jwtProvider = require("../jwt/JWTProvider");
 
 router.post('/', function (req, res, next) {
     if (req.body.password !== req.body.repeatPassword) {
@@ -12,7 +13,9 @@ router.post('/', function (req, res, next) {
                     user: {
                         username: req.body.username
                     },
-                    jwt: "aaaaaaa.bbbbbbbb.ccccccc"
+                    jwt: jwtProvider.createJWT( {
+                        username: req.body.username
+                    })
                 });
             },
             () => res.status(403).end()

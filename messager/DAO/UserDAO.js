@@ -1,13 +1,15 @@
+const sha512 = require('js-sha512');
+
 class UserDAO {
     bd = require("./bdDAO");
 
     async checkUser(username, password) {
-        let result = await this.bd.perform("select 1 from users where username = ? and password = ?", username,     password);
+        let result = await this.bd.perform("select 1 from users where username = ? and password = ?", username, sha512(password));
         return Boolean(result[0]);
     }
 
     async registerUser(username, password) {
-        return await this.bd.perform("insert into users value (?, ?, null)", username, password);
+        return await this.bd.perform("insert into users value (?, ?, null)", username, sha512(password));
     }
 
     async sendMessage(username, conversationId, text, fileName) {
