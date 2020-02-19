@@ -13,6 +13,7 @@ class BDDAO {
         })
     }
     async perform(sql, ...params) {
+        console.log(params);
         return new Promise(((resolve, reject) => {
             this.connection.query(sql, params, function (err, result) {
                 if (err)

@@ -148,6 +148,19 @@ export default messager = {
             })
         });
     },
+    async createConversation(name, users) {
+        return await this.sendRequest("api/createConversation", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${this.jwt.token}`
+            },
+            body: JSON.stringify({
+                name: name,
+                users: users.concat(this.user.username)
+            })
+        });
+    },
     async sendRequest(route, params) {
         let response = await fetch(route, params);
         if (!response.ok) {

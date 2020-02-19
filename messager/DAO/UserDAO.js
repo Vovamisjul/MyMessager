@@ -14,8 +14,12 @@ class UserDAO {
 
     async sendMessage(username, conversationId, text, fileName) {
         let result = await this.bd.perform("insert into messages value (null, ?, null, ?, ?, ?, now())", text, fileName, username, conversationId);
-        let insertedMessage = await this.bd.perform("select text, id, sender_username, file_name, date from messages where id = ?", result.insertId);
-        return insertedMessage[0];
+        return {
+            id: result.insertId,
+            text: text,
+            sender_username: username,
+            file_name: fileName
+        };
     }
 
     async getFriends(username) {

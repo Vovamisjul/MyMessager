@@ -18,6 +18,7 @@ const tokenRouter = require('./routes/token');
 const friendRequestRouter = require("./routes/friendRequest");
 const friendRequestsRouter = require("./routes/friendRequests");
 const acceptFriendRouter = require("./routes/acceptFriend");
+const createConversationRouter = require("./routes/createConversation");
 const authorisationFilter = require("./filters/AuthorisationFilter");
 
 const app = express();
@@ -47,6 +48,7 @@ app.use('/api/findUsers', findUsersRouter);
 app.use('/api/friendRequest', friendRequestRouter);
 app.use('/api/friendRequests', friendRequestsRouter);
 app.use('/api/acceptFriend', acceptFriendRouter);
+app.use('/api/createConversation', createConversationRouter);
 app.use('/', indexRouter);
 app.use('/login', indexRouter);
 app.use('/register', indexRouter);

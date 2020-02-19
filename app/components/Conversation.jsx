@@ -58,9 +58,7 @@ export default class Conversations extends ContentTemplate {
         event.preventDefault();
         try {
             let selfMessage = await messager.sendMessage(this.props.match.params.id, this.message.current.value, this.state.file, (file) => {
-                //this.state.messages[this.state.messages.length - 1].file = file;
-                //this.setState();
-                console.log(file);
+
             });
             this.setState({
                 messages: this.state.messages.concat(selfMessage),

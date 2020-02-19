@@ -10,6 +10,8 @@ export default class Conversations extends ContentTemplate {
     constructor(props) {
         super(props);
         this.showCreatingConversation = this.showCreatingConversation.bind(this);
+        this.createConversation = this.createConversation.bind(this);
+        this.newConversationName = React.createRef();
     }
 
     async componentDidMount() {
@@ -30,9 +32,25 @@ export default class Conversations extends ContentTemplate {
         let i = 0;
         this.setState({
             showCreate: true,
-            friends: friends.map((friend => { return {id: i++, label: friend.username}})),
+            friends: friends.map((friend => {
+                return {id: i++, label: friend.username}
+            })),
             selectedFriends: []
         });
+    }
+
+    async createConversation() {
+        try {
+            let newConversation = await messager.createConversation(this.newConversationName.current.value, this.state.selectedFriends.map(user => user.label));
+            this.setState({
+                conversations: this.state.conversations.concat(newConversation),
+                showCreate: false
+            });
+        } catch (e) {
+            if (e.message === "401") {
+                this.props.history.push("/");
+            }
+        }
     }
 
     render() {
@@ -40,12 +58,12 @@ export default class Conversations extends ContentTemplate {
             this.createWithTemplate(
                 <div className="preComponent">
                     {this.state && this.state.showCreate && <div className="createConversationModal">
-                        <div>
-                            <input placeholder="Conversation name"/>
-                            <MultiSelect items={this.state.friends}
-                                    onChange={selectedItems => this.setState({selectedFriends: selectedItems})}
-                            />
-                        </div>
+                        <input ref={this.newConversationName} placeholder="Conversation name"/>
+                        <MultiSelect items={this.state.friends}
+                                     onChange={selectedItems => this.setState({selectedFriends: selectedItems})}
+                        />
+                        <div className="createConversationButton" onClick={this.createConversation}>Create</div>
+                        <div className="createConversationButton" onClick={() => this.setState({showCreate: false})}>Cancel</div>
                     </div>}
                     <div className="createConversation">
                         <img src="images/plus.png" alt="add" onClick={this.showCreatingConversation}/>

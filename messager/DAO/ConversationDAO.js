@@ -18,6 +18,19 @@ class ConversationDAO {
         let result = await this.bd.perform("select file, file_name from messages where id = ?", messageId);
         return result[0];
     }
+
+    async createConversation(name, users) {
+        let result = await this.bd.perform("insert into conversations value (null, ?)", name);
+        let values = [];
+        for (let user of users) {
+            values.push([user, result.insertId, 0])
+        }
+        await this.bd.perform("insert into user_conversations (username, conversation_id, unread_messages_count) values ?", values);
+        return {
+            id: result.insertId,
+            name: name
+        };
+    }
 }
 
 let conversationDAO = new ConversationDAO();
