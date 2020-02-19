@@ -6,12 +6,14 @@ class ConversationDAO {
     }
 
     async getConversation(id, page) {
-        return await this.bd.perform("select id, text, file_name, sender_username, date from messages where conversation_id = ?", id);
+        return await this.bd.perform("select id, text, sender_username, date from messages where conversation_id = ?", id);
         //return await this.bd.perform("select id, text, file_name, sender_username, date from messages where conversation_id = ? limit ?, ?", id, page * 20, (page + 1) * 20 - 1);
     }
 
-    async addFile(id, file) {
-        await this.bd.perform("update messages set file = ? where id = ?", file, id);
+    async addFile(fileName, messageId) {
+        let result = await this.bd.perform("insert into files value (null, ?, ?)", fileName, messageId);
+        await this.bd.perform("update messags set file_id = ? where id = ?", result.insertId, messageId);
+        return result.insertId;
     }
 
     async getFile(messageId) {

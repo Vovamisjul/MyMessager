@@ -12,13 +12,13 @@ class UserDAO {
         return await this.bd.perform("insert into users value (?, ?, null)", username, sha512(password));
     }
 
-    async sendMessage(username, conversationId, text, fileName) {
-        let result = await this.bd.perform("insert into messages value (null, ?, null, ?, ?, ?, now())", text, fileName, username, conversationId);
+    async sendMessage(username, conversationId, text) {
+        let result = await this.bd.perform("insert into messages value (null, ?, ?, ?, now(), null)", text, username, conversationId);
         return {
             id: result.insertId,
             text: text,
             sender_username: username,
-            file_name: fileName
+            date: new Date()
         };
     }
 

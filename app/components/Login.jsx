@@ -2,7 +2,8 @@ import React from 'react';
 import Redirect from "react-router-dom/es/Redirect";
 import messager from "../model/Messager";
 import {Link} from 'react-router-dom';
-import "./style/Common.css"
+import "./style/Common.css";
+import "./style/Register.css";
 
 export default class Login extends React.Component {
 
@@ -26,15 +27,11 @@ export default class Login extends React.Component {
             });
             this.props.history.push("conversations");
         } catch (e) {
-            console.log(e);
-            this.setState({
-                incorrectCredentials: true,
-            });
+            alert("Wrong login or password")
         }
     };
 
     render() {
-        const {incorrectCredentials} = this.state;
         if (messager.isLogged()) {
             return <Redirect to="/conversations"/>;
         }
@@ -45,8 +42,8 @@ export default class Login extends React.Component {
 
                 </div>
                 <div className="registerContent">
+                    <h1>Sign in!</h1>
                     <form onSubmit={this.login}>
-                        <h1>Username</h1>
                         <input
                             placeholder="Username"
                             ref={this.username}
@@ -58,11 +55,10 @@ export default class Login extends React.Component {
                             placeholder="Password"
                         /><br/>
 
-                        <input type='submit'/>
+                        <input className="registerContentSubmit" type='submit'/>
                     </form>
                 </div>
-                {incorrectCredentials && <p>Wrong username or password</p>}
-                <div>
+                <div className="dontHaveAccount">
                     <p>Do not have an account? <Link to="register">Register now!</Link></p>
                 </div>
             </div>

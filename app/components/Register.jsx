@@ -1,6 +1,8 @@
 import React from 'react';
 import messager from "../model/Messager";
-import "./style/Common.css"
+import "./style/Common.css";
+import "./style/Register.css";
+import {Link} from "react-router-dom";
 
 export default class Register extends React.Component {
 
@@ -27,20 +29,17 @@ export default class Register extends React.Component {
             });
             this.props.history.push("conversations");
         } catch (e) {
-            console.log(e);
+            console.log(e.message);
             switch (e.message) {
                 case "400":
-                    this.setState({
-                        existingLogin: false,
-                        differentPasswords: true,
-                    });
+                    alert("Passwords must be same");
                     break;
                 case "403":
-                    this.setState({
-                        existingLogin: true,
-                        differentPasswords: false,
-                    });
+                    alert("This login already exists. Choose another");
                     break;
+                default:
+                    console.log("sad");
+
             }
         }
     };
@@ -50,31 +49,29 @@ export default class Register extends React.Component {
         return (
             <div>
                 <div className="topBar"></div>
-                <form onSubmit={this.handleSubmit}>
-                    <h1>Create an account</h1>
-
-                    <label>Create a username</label>
-                    <input
-                        placeholder='Username'
-                        ref={this.username}
-                    /><br/>
-                    {existingLogin && <p>A user with this name exists. Come up with another</p>}
-                    <label>Create a password</label>
-                    <input
-                        type='password'
-                        placeholder='Password'
-                        ref={this.password}
-                    /><br/>
-
-                    <label>Repeat your password</label>
-                    <input
-                        type='password'
-                        placeholder='Repeat your password'
-                        ref={this.repeatPassword}
-                    /><br/>
-                    {differentPasswords && <p>Passwords should be same</p>}
-                    <input type='submit'/>
-                </form>
+                <div className="registerContent">
+                    <form onSubmit={this.handleSubmit}>
+                        <h1>Sign up!</h1>
+                        <input
+                            placeholder='Create username'
+                            ref={this.username}
+                        /><br/>
+                        <input
+                            type='password'
+                            placeholder='Password'
+                            ref={this.password}
+                        /><br/>
+                        <input
+                            type='password'
+                            placeholder='Repeat your password'
+                            ref={this.repeatPassword}
+                        /><br/>
+                        <input className="registerContentSubmit" type='submit'/>
+                    </form>
+                </div>
+                <div className="dontHaveAccount">
+                    <p>Have an account? <Link to="login">Sign in!</Link></p>
+                </div>
             </div>
         )
     }

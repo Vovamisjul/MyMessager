@@ -5,7 +5,7 @@ const jwtProvider = require("../jwt/JWTProvider");
 
 router.post('/', function (req, res, next) {
     if (req.body.password !== req.body.repeatPassword) {
-        res.status(400).end();
+        res.status(400).send({});
     }
     userDAO.registerUser(req.body.username, req.body.password)
         .then(() => {
@@ -18,7 +18,7 @@ router.post('/', function (req, res, next) {
                     })
                 });
             },
-            () => res.status(403).end()
+            () => res.status(403).send({})
         )
     ;
 });

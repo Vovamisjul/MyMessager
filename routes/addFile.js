@@ -6,14 +6,19 @@ const fs = require("fs");
 var upload = multer({ dest: 'uploads/' });
 var path = require('path');
 
-router.put('/', upload.single('file'),async function(req, res, next) {
-    let filename = req.file.filename;
-    let filePath = path.join("uploads", filename);
-    const file = fs.readFileSync(filePath);
-    const buf = new Buffer(file);
-    res.send(await conversationDAO.addFile(req.query.messageId, buf));
-    fs.unlinkSync(filePath);
-    //res.sendStatus(200);
+const storageConfig = multer.diskStorage({
+    destination: (req, file, cb) =>{
+        cb(null, "uploads");
+    },
+    filename: (req, file, cb) =>{
+        let fileId = conversationDAO.addFile(file.originalname, req.query.messageId);
+        cb(null, file.originalname + fileId);
+    }
+});
+
+
+router.put('/',async function(req, res, next) {
+
 });
 
 module.exports = router;

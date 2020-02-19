@@ -63,7 +63,6 @@ export default messager = {
         });
     },
     async sendMessage(conversationId, text, file, onFileSend) {
-        console.log(file ? file.name : null);
         let result = await this.sendRequest("/api/sendMessage", {
             method: "POST",
             headers: {
@@ -73,11 +72,11 @@ export default messager = {
             body: JSON.stringify({
                 username: this.user.username,
                 conversationId: conversationId,
-                text: text,
-                fileName: file ? file.name : null
+                text: text
             })
         });
         if (file) {
+            console.log("s");
             let formData = new FormData();
             formData.append('file', file);
             fetch(`/api/addFile?messageId=${result.id}`, {

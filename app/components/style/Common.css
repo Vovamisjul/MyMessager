@@ -5,3 +5,24 @@
     color: white;
     height: 40px;
 }
+
+.registerContent {
+    text-align: center;
+}
+
+.registerContent input {
+    font-size: 14px;
+    padding: 15px 10px 10px;
+    margin: 10px;
+    border: 1px solid #cecece;
+    border-radius: 5px;
+    width: 25%;
+}
+
+.registerContentSubmit {
+    width: 100px !important;
+    background-color: #631f91;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+}
